@@ -1,0 +1,21 @@
+{
+  "name": "protrator-framework",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "viet nguyen",
+  "license": "MIT",
+  "dependencies": {
+    "@types/jasmine": "^3.4.4",
+    "codelyzer": "^5.1.2",
+    "protractor": "^5.4.2",
+    "tslint": "^5.20.0",
+    "typescript": "^3.6.4"
+  },
+  "devDependencies": {
+    "jasmine-spec-reporter": "^4.2.1"
+  }
+}
