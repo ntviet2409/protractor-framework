@@ -57,7 +57,7 @@ const configSetup = {
     ],
     allScriptsTimeout: 400000,
     suites: {
-        e2e_tests: './e2e/test-suites/e2e-test-suite/e2e-firstrain/**/*.e2e-spec.ts',
+        e2e_tests: './e2e/test-suites/e2e/*.e2e-spec.ts',
     },
     capabilities: {
         browserName: 'chrome',

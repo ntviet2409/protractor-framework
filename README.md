@@ -160,8 +160,6 @@ OR
 protractor <conf-file> --baseUrl=<URL>
 ```
 
-## Why Protractor is better than Selenium - [Test Team Discussion](https://drive.google.com/drive/u/0/folders/1HyLArAdrHXqVk1n8Y6Gf094lmsqFywy3)
-
 ## Thumb rules to be followed for organizing the code -
 * `*.constant.ts`, can have field/objects/properties but not methods
 * `*.po.ts` can have objects/properties but not methods

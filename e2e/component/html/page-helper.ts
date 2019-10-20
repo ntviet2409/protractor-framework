@@ -294,7 +294,7 @@ export class PageHelper {
         return browser.driver.get(url);
     }
 
-    static async randomString(size: number) {
+    static randomString(size: number) {
         let text = '';
         const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
