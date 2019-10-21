@@ -1,16 +1,16 @@
-import {SuiteNames} from "../helpers/suite-names";
-import {StepLogger} from "../../../core/logger/step-logger";
-import {PageHelper} from "../../component/html/page-helper";
-import {HomePage} from "../../pom/pages/webapp/home-page/home.po";
-import {CommonPageHelper} from "../../pom/pages/common-page/common-page.helper";
-import {HomePageHelper} from "../../pom/pages/webapp/home-page/home-page.helper";
-import {LoginPageHelper} from "../../pom/pages/webapp/login-page/login-page.helper";
-import {HomePageConstants} from "../../pom/pages/webapp/home-page/home-page.constants";
-import {WebCommonPageHelper} from "../../pom/pages/webapp/common/web-common-page.helper";
-import {ChannelPageHelper} from "../../pom/pages/webapp/add-edit-channel/channel-page.helper";
-import {AddEditChannelPage} from "../../pom/pages/webapp/add-edit-channel/add-edit-channel.po";
-import {WebCommonPageConstants} from "../../pom/pages/webapp/common/web-common-page.constants";
-import {AddEditChannelPageConstants} from "../../pom/pages/webapp/add-edit-channel/add-edit-channel-page.constants";
+import {SuiteNames} from '../helpers/suite-names';
+import {StepLogger} from '../../../core/logger/step-logger';
+import {PageHelper} from '../../component/html/page-helper';
+import {HomePage} from '../../pom/pages/webapp/home-page/home.po';
+import {CommonPageHelper} from '../../pom/pages/common-page/common-page.helper';
+import {HomePageHelper} from '../../pom/pages/webapp/home-page/home-page.helper';
+import {LoginPageHelper} from '../../pom/pages/webapp/login-page/login-page.helper';
+import {HomePageConstants} from '../../pom/pages/webapp/home-page/home-page.constants';
+import {WebCommonPageHelper} from '../../pom/pages/webapp/common/web-common-page.helper';
+import {ChannelPageHelper} from '../../pom/pages/webapp/channel/channel-page.helper';
+import {WebCommonPageConstants} from '../../pom/pages/webapp/common/web-common-page.constants';
+import {ChannelPageConstants} from '../../pom/pages/webapp/channel/channel-page.constants';
+import {AddEditChannelPage} from '../../pom/pages/webapp/channel/channel.po';
 
 describe(SuiteNames.e2eTestSuite, () => {
     let stepLogger: StepLogger;
@@ -25,7 +25,6 @@ describe(SuiteNames.e2eTestSuite, () => {
     });
 
     afterAll(async () => {
-        stepLogger.postCondition('Logout');
         await CommonPageHelper.genericLogout();
     });
 
@@ -39,7 +38,7 @@ describe(SuiteNames.e2eTestSuite, () => {
         stepLogger.step('Login to QA environment');
         await WebCommonPageHelper.loginAsQaUser(stepLogger);
         stepLogger.verification('Verify home page should be displayed');
-        await HomePageHelper.verifyHomePageIsDisplayed(stepLogger);
+        await HomePageHelper.verifyHomePageDashboard(stepLogger);
 
         stepLogger.stepId(2);
         stepLogger.step('From LHS Menu, click on ADD button');
@@ -61,7 +60,7 @@ describe(SuiteNames.e2eTestSuite, () => {
         stepLogger.verification('Verify set up your Channel page is opened');
         await HomePageHelper.verifySetUpChannelPageIsOpened(
             AddEditChannelPage.setUpChannelHeader.accounts,
-            AddEditChannelPageConstants.setUpChannelHeader.accounts,
+            ChannelPageConstants.setUpChannelHeader.accounts,
             stepLogger
         );
 
@@ -73,7 +72,7 @@ describe(SuiteNames.e2eTestSuite, () => {
 
         stepLogger.stepId(5);
         stepLogger.step('Give Channel Name and provide a name higher than 50 characters');
-        await HomePageHelper.renameChannelName(channelName, stepLogger);
+        await HomePageHelper.inputChannelName(channelName, stepLogger);
         stepLogger.verification('The Channel Name field should accept only 50 characters');
         await ChannelPageHelper.verifyChannelNameLength(stepLogger);
     });

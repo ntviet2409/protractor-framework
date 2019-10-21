@@ -1,5 +1,5 @@
 import {By, element} from 'protractor';
-import {HtmlHelper} from "../misc-utils/html-helper";
+import {HtmlHelper} from '../misc-utils/html-helper';
 
 export class TextboxElements {
 

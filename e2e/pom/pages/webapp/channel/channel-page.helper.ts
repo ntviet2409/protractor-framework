@@ -1,7 +1,7 @@
 import {StepLogger} from '../../../../../core/logger/step-logger';
-import {WebCommonPageConstants} from "../common/web-common-page.constants";
-import {ExpectationHelper} from "../../../../component/misc-utils/expectation-helper";
-import {AddEditChannelPage} from "./add-edit-channel.po";
+import {WebCommonPageConstants} from '../common/web-common-page.constants';
+import {ExpectationHelper} from '../../../../component/misc-utils/expectation-helper';
+import {AddEditChannelPage} from './channel.po';
 
 export class ChannelPageHelper {
 

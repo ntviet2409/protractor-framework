@@ -1,5 +1,5 @@
-import {browser} from "protractor";
-import {PageHelper} from "../../../component/html/page-helper";
+import {browser} from 'protractor';
+import {PageHelper} from '../../../component/html/page-helper';
 
 export class CommonPageHelper {
 

@@ -1,9 +1,13 @@
 import {StepLogger} from '../../../../../core/logger/step-logger';
-import {SecondExtendWebCommonPageHelper} from '../common/web-common-page-second-extend.helper';
+import {ExpectationHelper} from '../../../../component/misc-utils/expectation-helper';
+import {LoginPageConstants} from './login-page.constants';
+import {LoginPage} from './login.po';
 
 export class LoginPageHelper {
 
     static async verifyNavigation(stepLogger: StepLogger) {
-        await SecondExtendWebCommonPageHelper.verifyNavigation(stepLogger);
+        const page = LoginPage.mainContainer;
+        const pageTexts = LoginPageConstants.pageText;
+        await ExpectationHelper.verifyDisplayedStatus(page.loginPage, pageTexts, stepLogger);
     }
 }

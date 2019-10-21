@@ -106,9 +106,10 @@ allure serve <path of artifacts>, example
 
 ```
 allure serve allure-results
+allure generate ./auto-generated/allure-results --clean -o allure-report
 ```
 
-
+To view the report: index.html, make sure that on Firefox, leveraging the restriction by going to about:config url and then uncheck privacy.file_unique_origin boolean value.
 ## Running parallel tests execution
 
 Following keys are defined in [default-config-setup.js](https://github.com/trilogy-group/common-automation-framework-protractor/blob/develop/core/config-setup/default-config-setup.js)
@@ -155,7 +156,7 @@ NPM scripts can have parameters passed by command line.  E.g.:
 // Notice extra -- with cmd line args
 npm run e2e -- --baseUrl=<URL>
 
-OR
+OR  ./node_modules/.bin/webdriver-manager update
 
 protractor <conf-file> --baseUrl=<URL>
 ```

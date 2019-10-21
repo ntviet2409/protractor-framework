@@ -86,6 +86,9 @@ const configSetup = {
                 },
             },
         },
+        selenium: {
+            hub: process.env.SELENIUM_URL || setupUtilities.getParam('http://10.26.241.71:4444/wd/hub', "--params.selenium.hub", false)
+        },
     },
     baseUrl: 'http://stageapp.firstrain.com',
     framework: 'jasmine',

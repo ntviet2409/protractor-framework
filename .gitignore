@@ -1,9 +1,23 @@
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
 # dependencies
 /node_modules
 
 # IDEs and editors
 /.idea
-
+/.vscode
+/.vs
 
 # misc
 package-lock.json
+
+# compiled output
+/auto-generated
+/allure-report
+/dist
+/out-tsc
+
+# System Files
+.DS_Store
+Thumbs.db
+local.log
