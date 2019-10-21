@@ -1,8 +1,7 @@
-/* tslint:disable:no-element-outside-page-class*/
 import {browser, By, element, ElementFinder, protractor} from 'protractor';
 import {Constants} from '../misc-utils/constants';
-import {WaitHelper} from "../html/wait-helper";
-import {PageHelper} from "../html/page-helper";
+import {WaitHelper} from '../html/wait-helper';
+import {PageHelper} from '../html/page-helper';
 
 export class ElementHelper {
     private static readonly EC = protractor.ExpectedConditions;
@@ -121,14 +120,6 @@ export class ElementHelper {
         return targetElement.click();
     }
 
-    static async clickIfPresent(targetElement: ElementFinder) {
-        const noThankPresent = await PageHelper.isElementPresent(targetElement, true, Constants.timeout.s);
-        if (noThankPresent) {
-            return this.click(targetElement);
-        }
-        return;
-    }
-
     static async clickUsingJs(targetElement: ElementFinder) {
         await WaitHelper.getInstance().waitForElementToBeDisplayed(targetElement);
         return this.clickUsingJsNoWait(targetElement);
@@ -148,7 +139,7 @@ export class ElementHelper {
 
     static async selectDropdownByIndex(elementt: ElementFinder, optionNum: number) {
         if (optionNum) {
-            await elementt.findElements(by.tagName('option'))
+            await elementt.findElements(By.tagName('option'))
                 .then(async function (options) {
                     await options[optionNum].click();
                 });
@@ -184,7 +175,6 @@ export class ElementHelper {
             return text.trim();
         });
     }
-
 
     static async scrollToTop() {
         await PageHelper.staticWait(Constants.timeout.xxs);

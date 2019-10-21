@@ -1,5 +1,5 @@
 import {By, element} from 'protractor';
-import {HtmlHelper} from "../misc-utils/html-helper";
+import {HtmlHelper} from '../misc-utils/html-helper';
 
 export class TextElements {
 
@@ -16,5 +16,16 @@ export class TextElements {
 
     static getHeaderThreeByText(text: string, textIsContains = false) {
         return this.getItemByText(text, textIsContains, HtmlHelper.tags.h3);
+    }
+
+    static getItemByTitle(text: string, isContains = false, tag = HtmlHelper.tags.title) {
+        return this.getItemByText(text, isContains, tag);
+    }
+
+    static getItemByItemAndText(itemName: string, text: string, isContains = false, tag = '*') {
+        if (isContains) {
+            return element.all(By.xpath(`//${tag}[contains(@${HtmlHelper.tags.item},"${itemName}") and contains(text(),"${text}")]`)).first();
+        }
+        return element.all(By.xpath(`//${tag}[@${HtmlHelper.tags.item}="${itemName}" and normalize-space(text())="${text}"]`)).first();
     }
 }

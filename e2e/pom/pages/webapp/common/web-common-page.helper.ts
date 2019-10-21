@@ -1,21 +1,18 @@
+import {ElementFinder} from 'protractor';
 import {WebCommonPage} from './web-common.po';
 import {LoginPage} from '../login-page/login.po';
-import {browser, ElementFinder} from 'protractor';
 import {BasePageHelper} from '../../base-page.helper';
+import {AddEditChannelPage} from '../channel/channel.po';
 import {StepLogger} from '../../../../../core/logger/step-logger';
-import {PageHelper} from "../../../../component/html/page-helper";
-import {WaitHelper} from "../../../../component/html/wait-helper";
+import {PageHelper} from '../../../../component/html/page-helper';
+import {WaitHelper} from '../../../../component/html/wait-helper';
 import {WebCommonPageConstants} from './web-common-page.constants';
-import {Constants} from "../../../../component/misc-utils/constants";
-import {CommonPageHelper} from "../../common-page/common-page.helper";
-import {TextboxHelper} from "../../../../component/html/textbox-helper";
-import {AddEditChannelPage} from '../add-edit-channel/add-edit-channel.po';
+import {Constants} from '../../../../component/misc-utils/constants';
+import {CommonPageHelper} from '../../common-page/common-page.helper';
+import {TextboxHelper} from '../../../../component/html/textbox-helper';
 
 export class WebCommonPageHelper extends BasePageHelper {
     static readonly qaUser = WebCommonPageConstants.credentials.qaUser;
-    static readonly legacyUser = WebCommonPageConstants.credentials.legacyUser;
-    static readonly topicsWorkbenchUser = WebCommonPageConstants.credentials.topicsWorkbenchUser;
-    static readonly qaUserUsedForRoleChange = WebCommonPageConstants.credentials.qaUserUsedForRoleChange;
 
     static async navigateToWebApp(logout = true) {
         const frQaUrl = WebCommonPageConstants.urls.frQaUrl;
@@ -36,51 +33,14 @@ export class WebCommonPageHelper extends BasePageHelper {
     }
 
     static async loginAsUser(username: string, password: string, stepLogger: StepLogger) {
-        try {
-            stepLogger.subStep('Expand the view if it is collapsed');
-            await this.collapseView();
-            stepLogger.subStep('Click "Demo Link"');
-            await PageHelper.click(LoginPage.demoLoginLink);
-            stepLogger.subStep('Enter Email Address');
-            await TextboxHelper.sendKeys(LoginPage.emailTextBox, username);
-            stepLogger.subStep('Enter Password');
-            await TextboxHelper.sendKeys(LoginPage.passwordTextBox, password);
-            stepLogger.subStep('Click "SignIn" button');
-            await PageHelper.click(LoginPage.signInButton);
-            await this.verifyLoginIsSuccessful(username, password, stepLogger);
-        } catch (e) {
-            stepLogger.subStep('Login is done successfully');
-        }
-    }
-
-    static async verifyLoginIsSuccessful(username: string, password: string, stepLogger: StepLogger) {
-        try {
-            let signInButtonPresented = true;
-            let maxTry = Constants.MAX_RETRY_ATTEMPTS;
-            while (signInButtonPresented && maxTry-- > 0) {
-                try {
-                    stepLogger.subStep(`Wait for sign in button to be hidden at ${Constants.MAX_RETRY_ATTEMPTS - maxTry}`);
-                    await WaitHelper.getInstance().waitForElementToBeHidden(LoginPage.signInButton, Constants.timeout.xxl);
-                    stepLogger.subStep('Get sign in button status after sign in without waiting');
-                    signInButtonPresented = await PageHelper.isElementPresent(LoginPage.signInButton, false);
-                } catch (e) {
-                    stepLogger.subStep('Try again by refreshing the page');
-                    await browser.refresh();
-                    stepLogger.subStep(`Click "Demo Link" at ${maxTry}`);
-                    await PageHelper.click(LoginPage.demoLoginLink);
-                    stepLogger.subStep(`Enter email address at ${maxTry}`);
-                    await TextboxHelper.sendKeys(LoginPage.emailTextBox, username);
-                    stepLogger.subStep(`Enter password at ${maxTry}`);
-                    await TextboxHelper.sendKeys(LoginPage.passwordTextBox, password);
-                    stepLogger.subStep(`Click "SignIn" button at ${maxTry}`);
-                    await PageHelper.click(LoginPage.signInButton);
-                    stepLogger.subStep('Get sign in button status after sign in');
-                    signInButtonPresented = await PageHelper.isElementPresent(LoginPage.signInButton);
-                }
-            }
-        } catch (e) {
-            stepLogger.subStep('Login is done successfully');
-        }
+        stepLogger.subStep('Click "Demo Link"');
+        await PageHelper.click(LoginPage.demoLoginLink);
+        stepLogger.subStep('Enter Email Address');
+        await TextboxHelper.sendKeys(LoginPage.emailTextBox, username);
+        stepLogger.subStep('Enter Password');
+        await TextboxHelper.sendKeys(LoginPage.passwordTextBox, password);
+        stepLogger.subStep('Click "SignIn" button');
+        await PageHelper.click(LoginPage.signInButton);
     }
 
     static async clickNoThanksIfPresent(stepLogger: StepLogger) {
@@ -101,22 +61,13 @@ export class WebCommonPageHelper extends BasePageHelper {
     }
 
     static async loginAsQaUser(stepLogger: StepLogger) {
-        try {
-            await this.loginAsUser(this.qaUser.email, this.qaUser.password, stepLogger);
-        } catch (e) {
-            stepLogger.subStep('Login is done successfully');
-        }
-        stepLogger.subStep('Click no thanks button if it is presented');
+        await this.loginAsUser(this.qaUser.email, this.qaUser.password, stepLogger);
         await this.clickNoThanksIfPresent(stepLogger);
     }
 
     static async clickButton(button: ElementFinder, buttonName: string, stepLogger: StepLogger) {
-        try {
-            stepLogger.subStep(`Click "${buttonName}" button after waiting`);
-            await PageHelper.click(button);
-        } catch (e) {
-            stepLogger.subStep('Button is click successfully');
-        }
+        stepLogger.subStep(`Click "${buttonName}" button after waiting`);
+        await PageHelper.click(button);
     }
 
     url(): string {
