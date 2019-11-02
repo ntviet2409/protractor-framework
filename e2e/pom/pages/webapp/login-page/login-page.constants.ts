@@ -32,4 +32,9 @@ export class LoginPageConstants {
             signIn: 'SignIn',
         };
     }
+
+    static elementName = Object.freeze( {
+            userName: 'username',
+            password: 'password'
+    });
 }

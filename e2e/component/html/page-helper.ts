@@ -5,6 +5,20 @@ import {Constants} from '../misc-utils/constants';
 export class PageHelper {
     /* tslint:disable:no-large-timeout*/
     static DEFAULT_TIMEOUT = Constants.timeout.l;
+    static MAX_RETRY_ATTEMPTS = 3;
+
+    static timeout = Object.freeze({
+        ns: 20,
+        xxs: 1000,
+        xs: 2000,
+        s: 5000,
+        m: 10000,
+        l: 25000,
+        xl: 50000,
+        xxl: 75000,
+        xxxl: 200000,
+        xxxxl: 500000,
+    });
 
     static actionKeyDown(key: string) {
         return browser.actions().keyDown(key).perform();
@@ -97,7 +111,7 @@ export class PageHelper {
      * @returns {string} inner text
      */
     public static async getText(elem: ElementFinder) {
-        await WaitHelper.getInstance().waitForElementToBePresent(elem);
+        await WaitHelper.waitForElementToBePresent(elem);
         const text = await elem.getText();
         return text.trim();
     }
@@ -110,7 +124,7 @@ export class PageHelper {
      */
     public static async getAttributeValue(elem: ElementFinder,
                                           attribute: string) {
-        await WaitHelper.getInstance().waitForElementToBeDisplayed(elem);
+        await WaitHelper.waitForElementToBeDisplayed(elem);
         const attributeValue = await elem.getAttribute(attribute);
         return attributeValue.trim();
     }
@@ -121,7 +135,7 @@ export class PageHelper {
      * @returns {any}
      */
     public static async click(targetElement: ElementFinder, timeout = PageHelper.DEFAULT_TIMEOUT) {
-        await WaitHelper.getInstance().waitForElementToBeClickable(targetElement, timeout);
+        await WaitHelper.waitForElementToBeClickable(targetElement, timeout);
         return targetElement.click();
     }
 
@@ -131,9 +145,9 @@ export class PageHelper {
      * @returns {PromiseLike<boolean> | Promise<boolean> | Q.Promise<any> | promise.Promise<any> | Q.IPromise<any>}
      */
     public static async clickAndWaitForElementToHide(targetElement: ElementFinder) {
-        await WaitHelper.getInstance().waitForElementToBeClickable(targetElement);
+        await WaitHelper.waitForElementToBeClickable(targetElement);
         await targetElement.click();
-        return WaitHelper.getInstance().waitForElementToBeHidden(targetElement);
+        return WaitHelper.waitForElementToBeHidden(targetElement);
     }
 
     /**
@@ -153,7 +167,7 @@ export class PageHelper {
      */
     public static async isElementPresent(targetElement: ElementFinder, toWait = true, timeout = PageHelper.DEFAULT_TIMEOUT) {
         if (toWait) {
-            await WaitHelper.getInstance().waitForElementToBePresent(targetElement, timeout);
+            await WaitHelper.waitForElementToBePresent(targetElement, timeout);
         }
         return targetElement.isPresent();
     }
@@ -168,7 +182,7 @@ export class PageHelper {
                                            timeout = PageHelper.DEFAULT_TIMEOUT) {
         try {
             if (toWait) {
-                await WaitHelper.getInstance().waitForElementToBeDisplayed(targetElement, timeout);
+                await WaitHelper.waitForElementToBeDisplayed(targetElement, timeout);
             }
             return targetElement.isDisplayed();
         } catch (e) {
@@ -208,7 +222,7 @@ export class PageHelper {
      * @returns {any}
      */
     public static async actionHoverOver(targetElement: ElementFinder) {
-        await WaitHelper.getInstance().waitForElementToBeDisplayed(targetElement);
+        await WaitHelper.waitForElementToBeDisplayed(targetElement);
         return await browser.actions().mouseMove(targetElement).perform();
     }
 
@@ -230,7 +244,7 @@ export class PageHelper {
      */
     public static async isElementEnabled( targetElement: ElementFinder, toWait = true ) {
         if ( toWait ) {
-            await WaitHelper.getInstance().waitForElementToBeDisplayed( targetElement );
+            await WaitHelper.waitForElementToBeDisplayed( targetElement );
         }
         return targetElement.isEnabled();
     }
@@ -256,7 +270,7 @@ export class PageHelper {
 
     public static async isElementSelected(targetElement: ElementFinder, toWait = true) {
         if (toWait) {
-            await WaitHelper.getInstance().waitForElementToBeDisplayed(targetElement);
+            await WaitHelper.waitForElementToBeDisplayed(targetElement);
         }
         return targetElement.isSelected();
     }
@@ -279,7 +293,7 @@ export class PageHelper {
     }
 
     static async getCssValue(elem: ElementFinder, attribute: string) {
-        await WaitHelper.getInstance().waitForElementToBeDisplayed(elem);
+        await WaitHelper.waitForElementToBeDisplayed(elem);
         const attributeValue = await elem.getCssValue(attribute);
         return attributeValue.trim();
     }
@@ -294,13 +308,23 @@ export class PageHelper {
         return browser.driver.get(url);
     }
 
-    static randomString(size: number) {
-        let text = '';
-        const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-
-        for (let i = 0; i < size; i++) {
-            text += possible.charAt(Math.floor(Math.random() * possible.length));
+    public static async executeFunctionMultipleTimes(fn: Function, refresh = false, maxCount = 3) {
+        if (maxCount > this.MAX_RETRY_ATTEMPTS) {
+            throw new Error(`MaxCount value should be equal or less than: ${this.MAX_RETRY_ATTEMPTS}`);
         }
-        return text;
+        for (let count = 0; count < maxCount; count++) {
+            try {
+                return await fn();
+            } catch (e) {
+                console.log(`\tError while executing function: ${e}\n\t*Current count*: ${count}`);
+                if (count === (maxCount - 1)) {
+                    throw e;
+                }
+                if (refresh) {
+                    await browser.switchTo().defaultContent();
+                    await browser.navigate().refresh();
+                }
+            }
+        }
     }
 }

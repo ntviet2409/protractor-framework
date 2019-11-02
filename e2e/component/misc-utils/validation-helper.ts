@@ -242,4 +242,12 @@ export class ValidationsHelper {
     static getBooleamValidation(value: boolean, expectedValue: boolean) {
         return `${value} should be ${expectedValue}`;
     }
+
+    static getGreaterThanOrEqualToValidation(actualValue: number, expectedValue: number) {
+        return `${actualValue} should be greater than or equal ${expectedValue}`;
+    }
+
+    static getStringNotEqualToValidation(actualValue: string, expectedValue: string) {
+        return `${actualValue} should not be equal to ${expectedValue}`;
+    }
 }

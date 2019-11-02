@@ -66,31 +66,31 @@ const configSetup = {
         chromeOptions: chromeOptions
     },
     params: {
-        maxInstances: 1,
-        maxSessions: 1,
-        legacyUrl: process.env.EMANAGER_URL || setupUtilities.getParam(
-            'https://stageresearch.firstrain.com',
-            '--params.legacyUrl',
-            false
-        ),
-        frQaUrl: process.env.EMANAGER_URL || setupUtilities.getParam(
-            'http://stageapp.firstrain.com/',
-            '--params.frQaUrl',
-            false
-        ),
-        login: {
-            webapp: {
-                qaUser: {
-                    email: 'test_automation01@firstrain.com',
-                    password: 'firstrain',
-                },
+        verboseLogging: process.env.ENABLE_VERBOSE_LOGGING || setupUtilities.getParam(false, '--params.enableVerboseLogging', false),
+        maxInstances: 5,
+        maxSessions: 5,
+        users: {
+            cmroot: {
+                "username": "cmcroot",
+                "password": "!hailst0rm"
+            },
+            user: {
+                "username": "all@bytestacker.com",
+                "password": "!hailst0rm"
+            },
+            epaRoot: {
+                "username": "Eparoot",
+                "password": "!hailst0rm"
             },
         },
         selenium: {
             hub: process.env.SELENIUM_URL || setupUtilities.getParam('http://10.26.241.71:4444/wd/hub', "--params.selenium.hub", false)
         },
+        urls: {
+            llanoUrl: 'https://llano.alertfind.com',
+        }
     },
-    baseUrl: 'http://stageapp.firstrain.com',
+    baseUrl: 'https://llano.alertfind.com',
     framework: 'jasmine',
     jasmineNodeOpts: {
         showColors: true,

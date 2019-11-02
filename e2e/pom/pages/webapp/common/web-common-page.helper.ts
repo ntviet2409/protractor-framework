@@ -51,7 +51,7 @@ export class WebCommonPageHelper extends BasePageHelper {
                 stepLogger.subStep('Click no thanks button');
                 await PageHelper.click(AddEditChannelPage.buttons.noThanks);
                 stepLogger.subStep('Wait for no thanks button to be hidden after being clicked');
-                await WaitHelper.getInstance().waitForElementToBeHidden(AddEditChannelPage.buttons.noThanks);
+                await WaitHelper.waitForElementToBeHidden(AddEditChannelPage.buttons.noThanks);
             }
         } catch (e) {
             stepLogger.subStep('No Thanks button is confirmed');

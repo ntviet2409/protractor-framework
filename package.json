@@ -24,9 +24,11 @@
   "dependencies": {
     "@angular/compiler": "^4.2.4",
     "@angular/core": "^4.2.4",
+    "@types/chai": "^4.2.4",
     "@types/jasmine": "^3.4.4",
     "@types/node": "^12.11.1",
     "allure-commandline": "^2.13.0",
+    "chai": "^4.2.0",
     "codelyzer": "^5.1.2",
     "core-js": "^3.3.2",
     "husky": "^3.0.9",

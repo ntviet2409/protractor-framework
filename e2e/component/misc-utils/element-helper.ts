@@ -12,12 +12,12 @@ export class ElementHelper {
     }
 
     static async actionMouseMove(item: ElementFinder) {
-        await WaitHelper.getInstance().waitForElementToBeDisplayed(item);
+        await WaitHelper.waitForElementToBeDisplayed(item);
         return browser.actions().mouseMove(item).perform();
     }
 
     static async actionMouseDown(item: ElementFinder) {
-        await WaitHelper.getInstance().waitForElementToBeDisplayed(item);
+        await WaitHelper.waitForElementToBeDisplayed(item);
         return browser.actions().mouseDown(item).perform();
     }
 
@@ -44,12 +44,12 @@ export class ElementHelper {
     }
 
     static async actionHoverOver(locator: ElementFinder) {
-        await WaitHelper.getInstance().waitForElementToBeDisplayed(locator);
+        await WaitHelper.waitForElementToBeDisplayed(locator);
         return browser.actions().mouseMove(locator).perform();
     }
 
     static async actionHoverOverAndClick(hoverOverLocator: ElementFinder, clickLocator: ElementFinder) {
-        await WaitHelper.getInstance().waitForElementToBeDisplayed(hoverOverLocator);
+        await WaitHelper.waitForElementToBeDisplayed(hoverOverLocator);
         return browser.actions().mouseMove(hoverOverLocator).click(clickLocator).perform();
     }
 
@@ -116,25 +116,17 @@ export class ElementHelper {
     }
 
     static async click(targetElement: ElementFinder) {
-        await WaitHelper.getInstance().waitForElementToBeClickable(targetElement);
+        await WaitHelper.waitForElementToBeClickable(targetElement);
         return targetElement.click();
     }
 
     static async clickUsingJs(targetElement: ElementFinder) {
-        await WaitHelper.getInstance().waitForElementToBeDisplayed(targetElement);
+        await WaitHelper.waitForElementToBeDisplayed(targetElement);
         return this.clickUsingJsNoWait(targetElement);
     }
 
     static clickUsingJsNoWait(targetElement: ElementFinder) {
         return browser.executeScript('arguments[0].click();', targetElement.getWebElement());
-    }
-
-    static async waitForElementToHaveClass(targetElement: ElementFinder,
-                                           kClass: string,
-                                           timeout = PageHelper.DEFAULT_TIMEOUT,
-                                           message = '') {
-        await WaitHelper.getInstance().waitForElementToResolve(() => this.hasClass(targetElement, kClass),
-            (result: any) => result, timeout, message);
     }
 
     static async selectDropdownByIndex(elementt: ElementFinder, optionNum: number) {
@@ -147,7 +139,7 @@ export class ElementHelper {
     }
 
     static async scrollToElement(ele: ElementFinder, offset = '0') {
-        await WaitHelper.getInstance().waitForElementToBePresent(ele);
+        await WaitHelper.waitForElementToBePresent(ele);
         await browser.executeScript(`arguments[0].scrollIntoView(true); window.scrollBy(0,${offset});`, ele);
         await PageHelper.staticWait(Constants.timeout.xxs);
     }

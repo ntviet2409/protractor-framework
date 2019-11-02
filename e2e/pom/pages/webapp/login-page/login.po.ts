@@ -5,7 +5,14 @@ import {HtmlHelper} from '../../../../component/misc-utils/html-helper';
 import {By, element} from 'protractor';
 
 export class LoginPage {
-
+    static get formControls() {
+        const elementName = LoginPageConstants.elementName;
+        return {
+            username: element(By.name(elementName.userName)),
+            password: element(By.name(elementName.password)),
+            login: element(By.className('df-button__content')),
+        };
+    }
     static get emailTextBox() {
         return TextboxElements.getInputById(LoginPageConstants.signInFormIDs.email);
     }

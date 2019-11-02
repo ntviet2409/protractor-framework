@@ -4,7 +4,7 @@ import {WaitHelper} from './wait-helper';
 
 export class CheckboxHelper {
     static async markCheckbox(elementt: ElementFinder, markChecked: boolean) {
-        await WaitHelper.getInstance().waitForElementToBeClickable(elementt);
+        await WaitHelper.waitForElementToBeClickable(elementt);
         let attempts = 0;
         // Retry mark checkbox if previous try fails.  This is
         // useful on slow envs like on remote executions.
@@ -18,7 +18,7 @@ export class CheckboxHelper {
     }
 
     public static async isCheckboxChecked(locator: ElementFinder) {
-        await WaitHelper.getInstance().waitForElementToBeDisplayed(locator);
+        await WaitHelper.waitForElementToBeDisplayed(locator);
         return locator.isSelected();
     }
 }
